@@ -1,0 +1,1238 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>ScreenTame – Planos & Conteúdos 📱</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050816;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent-soft: #bbf7d0;
+      --text: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border: #1f2937;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #111827 0, #020617 40%, #000 100%);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 24px;
+    }
+
+    .page {
+      max-width: 1120px;
+      width: 100%;
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 24px;
+      border: 1px solid rgba(30, 64, 175, 0.6);
+      box-shadow:
+        0 24px 48px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(15, 23, 42, 0.9);
+      padding: 26px 24px 32px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 197, 94, 0.5);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent-soft);
+      background: rgba(22, 163, 74, 0.08);
+      margin-bottom: 10px;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+    }
+
+    header h1 {
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* PLANOS HORIZONTAIS */
+    .plans-section {
+      margin-top: 18px;
+    }
+
+    .plans-row {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scrollbar-width: thin;
+    }
+
+    .plans-row::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .plans-row::-webkit-scrollbar-thumb {
+      background: #1f2937;
+      border-radius: 999px;
+    }
+
+    .plan {
+      position: relative;
+      background: radial-gradient(circle at top, #020617, #020617 55%);
+      border-radius: 20px;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      padding: 18px 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.7);
+      min-width: 280px;
+      max-width: 320px;
+      flex-shrink: 0;
+    }
+
+    .plan.highlight {
+      border: 1px solid rgba(34, 197, 94, 0.9);
+      box-shadow:
+        0 20px 40px rgba(34, 197, 94, 0.35),
+        0 0 0 1px rgba(15, 23, 42, 0.95);
+      transform: translateY(-4px);
+    }
+
+    .plan-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .plan-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .plan-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .price-row {
+      margin: 8px 0 10px;
+    }
+
+    .price-main {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .price-main span {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-left: 4px;
+    }
+
+    .price-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .divider {
+      height: 1px;
+      width: 100%;
+      background: linear-gradient(90deg, transparent, rgba(55, 65, 81, 0.9), transparent);
+      margin: 8px 0 8px;
+    }
+
+    .features {
+      list-style: none;
+      margin-bottom: 12px;
+    }
+
+    .features li {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
+      margin-bottom: 5px;
+    }
+
+    .features li::before {
+      content: "✔";
+      font-size: 10px;
+      margin-top: 2px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .btn-wrap {
+      margin-top: auto;
+    }
+
+    .plan-button {
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, background 0.15s;
+    }
+
+    .plan-button.primary {
+      background: linear-gradient(135deg, #22c55e, #4ade80);
+      color: #052e16;
+      box-shadow: 0 12px 22px rgba(34, 197, 94, 0.55);
+    }
+
+    .plan-button.primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 26px rgba(34, 197, 94, 0.7);
+    }
+
+    .plan-button.ghost {
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text);
+      border: 1px solid rgba(75, 85, 99, 0.9);
+    }
+
+    .plan-button.ghost:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.9);
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .tag-best {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.16);
+      color: var(--accent-soft);
+      border: 1px solid rgba(34, 197, 94, 0.7);
+    }
+
+    /* SEÇÃO PLANO ASSINADO */
+    .plano-assinado {
+      margin-top: 10px;
+    }
+
+    .back-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .back-btn:hover {
+      color: var(--accent-soft);
+    }
+
+    .mini-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .plano-assinado-title {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .plano-assinado-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    /* ABAS DENTRO DO PLANO */
+    .tab-nav {
+      display: flex;
+      gap: 6px;
+      padding: 4px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      overflow-x: auto;
+      margin-bottom: 14px;
+    }
+
+    .tab-nav::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .tab-button {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 12px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.18s ease-out;
+    }
+
+    .tab-button.active {
+      background: linear-gradient(135deg, #22c55e, #4ade80);
+      color: #052e16;
+      font-weight: 600;
+      box-shadow: 0 8px 16px rgba(34, 197, 94, 0.5);
+    }
+
+    .tab-panel {
+      display: none;
+      animation: fadeIn 0.22s ease-out;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .tab-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 16px;
+    }
+
+    .content-card {
+      background: #020617;
+      border-radius: 14px;
+      border: 1px solid #1f2937;
+      padding: 14px 14px 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .content-card h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .content-card p {
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+
+    .content-card ul {
+      margin-left: 18px;
+      margin-top: 4px;
+    }
+
+    .content-card ul li + li {
+      margin-top: 4px;
+    }
+
+    .pill {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .chart-wrapper {
+      background: #020617;
+      border-radius: 14px;
+      border: 1px solid #1f2937;
+      padding: 12px 12px 16px;
+    }
+
+    canvas {
+      max-width: 100%;
+    }
+
+    /* PERSONALIZAÇÃO */
+    .personalizacao-info {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .personalizacao-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    label {
+      font-size: 12px;
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    input[type="number"],
+    input[type="text"],
+    textarea {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: var(--text);
+      font-size: 12px;
+      padding: 6px 8px;
+      resize: vertical;
+    }
+
+    textarea {
+      min-height: 80px;
+    }
+
+    .btn-mini {
+      margin-top: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #22c55e, #4ade80);
+      color: #052e16;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-mini:hover {
+      filter: brightness(1.05);
+    }
+
+    .resultado-plano {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    /* PÁGINA MINI PLANO PERSONALIZADO */
+    .personal-page-title {
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+
+    .personal-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .week-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .day-card {
+      background: #020617;
+      border-radius: 12px;
+      border: 1px solid #1f2937;
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+
+    .day-card h3 {
+      font-size: 13px;
+      margin-bottom: 4px;
+      color: var(--accent-soft);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    footer {
+      margin-top: 18px;
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 900px) {
+      .tab-grid,
+      .personalizacao-grid,
+      .week-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 14px;
+      }
+
+      .page {
+        padding: 18px 14px 22px;
+        border-radius: 18px;
+      }
+
+      header h1 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- PÁGINA 1: PLANOS -->
+    <header id="header-principal">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Planos & Conteúdos • ScreenTame
+      </div>
+      <h1>Controle do vício em telas – Escolha seu plano 🎮</h1>
+      <p>
+        Planos em níveis diferentes. Ao “assinar” um plano, você entra em uma
+        área exclusiva só com o conteúdo daquele plano, com abas, gráfico e
+        (a partir do plano Mediano) personalização.
+      </p>
+    </header>
+
+    <section id="planos-section" class="plans-section">
+      <div class="plans-row">
+        <!-- PLANO INICIANTE -->
+        <article class="plan">
+          <p class="plan-label">Plano 1</p>
+          <h2 class="plan-title">Iniciante 🌱</h2>
+          <p class="plan-subtitle">
+            Comece leve, entendendo o vício e mudando hábitos sem pressão.
+            Personalização completa disponível a partir do plano Mediano.
+          </p>
+
+          <div class="price-row">
+            <div class="price-main">
+              R$ 29,90 <span>(valor planejado, ainda grátis)</span>
+            </div>
+            <p class="price-note">
+              Primeiro passo para quem quer testar o controle de telas.
+            </p>
+          </div>
+
+          <div class="divider"></div>
+
+          <ul class="features">
+            <li>Explicação simples do vício em telas.</li>
+            <li>Rotina básica com pequenas mudanças por dia.</li>
+            <li>Checklist diário curto.</li>
+            <li>Mini desafios semanais.</li>
+          </ul>
+
+          <div class="btn-wrap">
+            <button class="plan-button ghost" onclick="assinarPlano('iniciante')">
+              Assinar plano iniciante
+            </button>
+          </div>
+        </article>
+
+        <!-- PLANO MEDIANO -->
+        <article class="plan highlight">
+          <span class="tag-best">Mais popular</span>
+          <p class="plan-label">Plano 2</p>
+          <h2 class="plan-title">Mediano ⚡</h2>
+          <p class="plan-subtitle">
+            Técnicas intermediárias, metas fortes e formulário para criar um
+            plano mais especializado com base nas suas respostas.
+          </p>
+
+          <div class="price-row">
+            <div class="price-main">
+              R$ 59,90 <span>(valor planejado, ainda grátis)</span>
+            </div>
+            <p class="price-note">
+              Para quem já sacou o problema e quer subir o nível de disciplina,
+              com personalização usando dados do próprio usuário.
+            </p>
+          </div>
+
+          <div class="divider"></div>
+
+          <ul class="features">
+            <li>Inclui tudo do plano Iniciante.</li>
+            <li>Metas de 7, 14 e 30 dias.</li>
+            <li>Configuração mais agressiva do celular.</li>
+            <li>Formulário de diagnóstico para gerar plano personalizado.</li>
+          </ul>
+
+          <div class="btn-wrap">
+            <button class="plan-button primary" onclick="assinarPlano('mediano')">
+              Assinar plano mediano
+            </button>
+          </div>
+        </article>
+
+        <!-- PLANO AVANÇADO -->
+        <article class="plan">
+          <p class="plan-label">Plano 3</p>
+          <h2 class="plan-title">Avançado 🚀</h2>
+          <p class="plan-subtitle">
+            Programa completo de 90 dias com tudo: foco, corpo, sono e dopamina,
+            mais personalização ainda mais detalhada com base nos seus dados.
+          </p>
+
+          <div class="price-row">
+            <div class="price-main">
+              R$ 99,90 <span>(valor planejado, ainda grátis)</span>
+            </div>
+            <p class="price-note">
+              Para quem quer transformar de verdade a relação com telas usando
+              plano totalmente customizado às respostas do usuário.
+            </p>
+          </div>
+
+          <div class="divider"></div>
+
+          <ul class="features">
+            <li>Inclui tudo do Iniciante e do Mediano.</li>
+            <li>Programa em fases (Detox, Equilíbrio, Manutenção).</li>
+            <li>Rastreamento de horas de tela.</li>
+            <li>Personalização avançada a partir das respostas do formulário.</li>
+          </ul>
+
+          <div class="btn-wrap">
+            <button class="plan-button ghost" onclick="assinarPlano('avancado')">
+              Assinar plano avançado
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- PÁGINA 2: PLANO ASSINADO -->
+    <section id="plano-assinado-section" class="plano-assinado hidden">
+      <button class="back-btn" type="button" onclick="voltarParaPlanos()">
+        ← voltar para escolher outro plano
+      </button>
+
+      <p class="mini-label">Plano assinado</p>
+      <h2 class="plano-assinado-title" id="titulo-plano-assinado">Plano</h2>
+      <p class="plano-assinado-desc" id="descricao-plano-assinado">
+        Aqui entra a descrição do plano assinado.
+      </p>
+
+      <!-- ABAS -->
+      <nav class="tab-nav">
+        <button class="tab-button active" data-tab="geral" onclick="selecionarAba('geral')">
+          Visão geral
+        </button>
+        <button class="tab-button" data-tab="rotina" onclick="selecionarAba('rotina')">
+          Rotina & hábitos
+        </button>
+        <button class="tab-button" data-tab="tecnicas" onclick="selecionarAba('tecnicas')">
+          Técnicas práticas
+        </button>
+        <button class="tab-button" data-tab="graficos" onclick="selecionarAba('graficos')">
+          Gráficos & progresso
+        </button>
+        <button class="tab-button" data-tab="extra" onclick="selecionarAba('extra')">
+          Extras & personalização
+        </button>
+      </nav>
+
+      <!-- ABA: VISÃO GERAL -->
+      <div class="tab-panel active" id="tab-geral">
+        <div class="tab-grid">
+          <div class="content-card">
+            <h3>📘 O foco deste plano</h3>
+            <p id="geral-texto-1">
+              Neste plano você começa entendendo como o vício em telas atua na sua rotina
+              e monta uma estratégia que encaixa com escola, descanso e lazer.
+            </p>
+            <p id="geral-texto-2">
+              A ideia é sair do uso automático de tela e ir para um uso consciente:
+              você decide quando e por quanto tempo usa, em vez de “acordar com o celular na mão”.
+            </p>
+            <p id="geral-texto-3">
+              Tudo é dividido em módulos com tarefas claras para você aplicar no mesmo dia
+              em que ler o conteúdo, sem enrolação.
+            </p>
+            <span class="pill" id="pill-nivel">Nível: —</span>
+          </div>
+
+          <div class="content-card">
+            <h3>🎯 Resultado esperado</h3>
+            <p>
+              Ao final deste plano, você deve:
+            </p>
+            <ul id="lista-resultado">
+              <li>Ter reduzido o tempo de tela em relação ao que usa hoje.</li>
+              <li>Ter uma rotina mínima de estudo e sono organizada.</li>
+              <li>Perceber com mais clareza quais apps e momentos são os mais perigosos.</li>
+              <li>Ter uma estratégia clara para quando bater vontade de “scroll infinito”.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA: ROTINA & HÁBITOS -->
+      <div class="tab-panel" id="tab-rotina">
+        <div class="tab-grid">
+          <div class="content-card">
+            <h3>📅 Modelo de rotina</h3>
+            <p>
+              Use este modelo como base e ajuste para o seu horário real de escola, treino e lazer:
+            </p>
+            <ul id="lista-rotina">
+              <li>Blocos de estudo sem celular (25–50 minutos, dependendo do plano).</li>
+              <li>Horário definido para lazer com telas, em vez de “qualquer hora, o tempo todo”.</li>
+              <li>Período de “zona sem telas” antes de dormir, para proteger o sono.</li>
+              <li>Momentos do dia reservados para atividades offline (esporte, leitura, hobbies).</li>
+            </ul>
+            <span class="pill">Rotina ajustável conforme o nível do plano.</span>
+          </div>
+
+          <div class="content-card">
+            <h3>✅ Checklist de hábitos diários</h3>
+            <p>Exemplos de itens que você pode marcar todos os dias:</p>
+            <ul>
+              <li>[ ] Fiz pelo menos 1 bloco de estudo sem encostar no celular.</li>
+              <li>[ ] Respeitei o horário máximo de lazer com tela.</li>
+              <li>[ ] Fiquei pelo menos 30 minutos seguidos em alguma atividade offline.</li>
+              <li>[ ] Não levei o celular para a mesa na hora da refeição.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA: TÉCNICAS PRÁTICAS -->
+      <div class="tab-panel" id="tab-tecnicas">
+        <div class="tab-grid">
+          <div class="content-card">
+            <h3>🧠 Técnicas de controle de impulso</h3>
+            <p>
+              Quando bater a vontade forte de pegar o celular, você pode usar:
+            </p>
+            <ul>
+              <li><strong>Regra dos 5 segundos:</strong> respirar fundo, contar de 5 a 1 e decidir se realmente precisa pegar.</li>
+              <li><strong>Pergunta de ouro:</strong> “Isso me aproxima ou me afasta do que eu quero hoje?”</li>
+              <li><strong>Celular fora do alcance:</strong> deixar em outro cômodo durante estudo ou refeição.</li>
+            </ul>
+          </div>
+
+          <div class="content-card">
+            <h3>⏱ Técnicas de foco</h3>
+            <p id="texto-tecnica-foco">
+              Escolha o protocolo de foco que combina com o seu nível:
+            </p>
+            <ul id="lista-foco">
+              <li>Plano Iniciante: blocos de 25 minutos + 5 de pausa (pomodoro leve).</li>
+              <li>Plano Mediano: 30–40 minutos de foco + 10 de pausa.</li>
+              <li>Plano Avançado: blocos profundos de 45–60 minutos com celular em outro cômodo.</li>
+            </ul>
+            <span class="pill">Dá para ir subindo de nível com o tempo.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA: GRÁFICOS & PROGRESSO -->
+      <div class="tab-panel" id="tab-graficos">
+        <div class="tab-grid">
+          <div class="chart-wrapper">
+            <h3>📊 Evolução do tempo de tela (exemplo)</h3>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:6px;">
+              Este gráfico mostra um exemplo de como seu tempo médio de tela pode cair
+              ao longo de 7 dias seguindo o plano atual.
+            </p>
+            <canvas id="graficoProgresso" height="160"></canvas>
+          </div>
+
+          <div class="content-card">
+            <h3>Como ler o gráfico</h3>
+            <p>
+              O objetivo não é ser perfeito, e sim melhorar um pouco a cada semana.
+              Se em vez de cair, o tempo subir em alguns dias, você usa isso como feedback
+              para ajustar sua rotina e as técnicas usadas.
+            </p>
+            <p>
+              Nos planos Mediano e Avançado, você pode anotar os valores reais
+              (do relatório de uso de tela do seu celular) e comparar com a meta da semana.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA: EXTRAS & PERSONALIZAÇÃO -->
+      <div class="tab-panel" id="tab-extra">
+        <div id="personalizacao-bloqueada" class="content-card">
+          <h3>🔒 Personalização exclusiva para planos Mediano e Avançado</h3>
+          <p>
+            No plano Iniciante, você já tem uma base sólida de técnicas e rotina.
+            A partir do plano Mediano, você desbloqueia a área de personalização,
+            onde responde perguntas e gera um mini plano adaptado à sua realidade.
+          </p>
+        </div>
+
+        <div id="personalizacao-area" class="content-card hidden">
+          <h3>🧩 Personalização do seu plano</h3>
+          <p class="personalizacao-info">
+            Responda às perguntas abaixo. Usando essas informações, o sistema monta um
+            mini plano especializado para você e te leva para uma página extra só sua,
+            com gráficos e programação da semana.
+          </p>
+
+          <div class="personalizacao-grid">
+            <div>
+              <label for="horasTela">Quantas horas de tela por dia você usa em média?</label>
+              <input type="number" id="horasTela" min="0" max="24" placeholder="Ex.: 6" />
+
+              <label for="appsPrincipais" style="margin-top:8px;">Quais são os apps/jogos que mais te prendem?</label>
+              <input type="text" id="appsPrincipais" placeholder="Ex.: TikTok, Instagram, jogos online..." />
+
+              <label for="objetivoTela" style="margin-top:8px;">Qual é o seu principal objetivo com este plano?</label>
+              <input type="text" id="objetivoTela" placeholder="Ex.: melhorar notas, dormir melhor, focar em esportes..." />
+            </div>
+
+            <div>
+              <label for="momentosCriticos">Em quais momentos do dia você mais perde controle com telas?</label>
+              <textarea id="momentosCriticos" placeholder="Ex.: à noite antes de dormir, depois da escola, no intervalo..."></textarea>
+
+              <label for="atividadesGostaria" style="margin-top:8px;">Atividades offline que você gostaria de fazer mais:</label>
+              <textarea id="atividadesGostaria" placeholder="Ex.: futebol, desenho, leitura, tocar instrumento..."></textarea>
+            </div>
+          </div>
+
+          <button class="btn-mini" type="button" onclick="gerarPlanoPersonalizado()">
+            Gerar mini plano personalizado
+          </button>
+
+          <div id="resultadoPersonalizado" class="resultado-plano"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PÁGINA 3: MINI PLANO PERSONALIZADO -->
+    <section id="plano-personalizado-section" class="hidden">
+      <button class="back-btn" type="button" onclick="voltarParaPlanoAssinado()">
+        ← voltar para o plano assinado
+      </button>
+
+      <p class="mini-label">Mini plano personalizado</p>
+      <h2 class="personal-page-title">Seu plano ajustado ao seu perfil ✨</h2>
+      <p class="personal-subtitle">
+        Esta seção foi montada com base nas respostas que você deu. Aqui você vê um resumo
+        do plano, um gráfico com a meta de redução de tela e uma programação sugerida para cada dia da semana.
+      </p>
+
+      <div class="content-card">
+        <h3>📝 Resumo do seu mini plano</h3>
+        <p id="resumoPersonalizado"></p>
+      </div>
+
+      <div class="tab-grid" style="margin-top:14px;">
+        <div class="chart-wrapper">
+          <h3>📊 Meta de horas de tela na semana</h3>
+          <p style="font-size:12px; color:var(--text-muted); margin-bottom:6px;">
+            Barras escuras representam o uso atual estimado, e barras claras representam a meta
+            sugerida para cada dia, com base nas suas respostas.
+          </p>
+          <canvas id="graficoPersonalizado" height="180"></canvas>
+        </div>
+
+        <div class="content-card">
+          <h3>📆 Programação sugerida da semana</h3>
+          <p style="margin-bottom:6px;">
+            A ideia é ter um padrão simples que você pode seguir na maior parte dos dias,
+            com blocos de estudo, lazer com telas e atividades offline.
+          </p>
+          <div id="weekPlan" class="week-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        ⚠️ Todos os planos estão liberados gratuitamente por enquanto.  
+        No futuro, esta mesma estrutura pode ser conectada a uma plataforma de pagamento
+        (como Hotmart) para liberar o conteúdo somente após a compra.
+      </p>
+    </footer>
+  </div>
+
+  <!-- Chart.js para os gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    let planoAtual = null;
+    let grafico = null;
+    let graficoPersonalizado = null;
+
+    function assinarPlano(plano) {
+      planoAtual = plano;
+
+      // Esconde página de planos, mostra página do plano assinado
+      document.getElementById("header-principal").classList.add("hidden");
+      document.getElementById("planos-section").classList.add("hidden");
+      document.getElementById("plano-personalizado-section").classList.add("hidden");
+      document.getElementById("plano-assinado-section").classList.remove("hidden");
+
+      // Reseta abas
+      selecionarAba("geral");
+
+      // Atualiza título, descrição e resultados
+      const titulo = document.getElementById("titulo-plano-assinado");
+      const desc = document.getElementById("descricao-plano-assinado");
+      const pillNivel = document.getElementById("pill-nivel");
+      const listaResultado = document.getElementById("lista-resultado");
+
+      if (plano === "iniciante") {
+        titulo.textContent = "Plano Iniciante 🌱";
+        desc.textContent =
+          "Você escolheu o plano Iniciante. Ele é focado em entender o vício em telas e começar a mudar hábitos de forma leve, sem radicalizar.";
+        pillNivel.textContent = "Nível: básico";
+
+        listaResultado.innerHTML = `
+          <li>Entender melhor como o vício em telas funciona.</li>
+          <li>Ter pelo menos 1 bloco de estudo sem celular por dia.</li>
+          <li>Ter uma hora do dia com menos tela, principalmente antes de dormir.</li>
+          <li>Começar a perceber quais situações mais te fazem exagerar no uso.</li>
+        `;
+      } else if (plano === "mediano") {
+        titulo.textContent = "Plano Mediano ⚡";
+        desc.textContent =
+          "Você escolheu o plano Mediano. Agora o foco é disciplina moderada, metas claras e personalização com base nas suas respostas.";
+        pillNivel.textContent = "Nível: intermediário";
+
+        listaResultado.innerHTML = `
+          <li>Reduzir de forma consistente seu tempo médio de tela.</li>
+          <li>Criar rotina de estudo com foco e menos interrupções.</li>
+          <li>Dominar técnicas para lidar com recaídas sem desistir.</li>
+          <li>Montar um plano personalizado que combine com sua realidade.</li>
+        `;
+      } else if (plano === "avancado") {
+        titulo.textContent = "Plano Avançado 🚀";
+        desc.textContent =
+          "Você escolheu o plano Avançado. Aqui a ideia é transformação profunda: foco, corpo, sono, dopamina e plano altamente personalizado.";
+        pillNivel.textContent = "Nível: avançado";
+
+        listaResultado.innerHTML = `
+          <li>Reduzir drasticamente o tempo de tela inútil.</li>
+          <li>Manter rotinas fortes de estudo, sono e atividade física.</li>
+          <li>Controlar melhor impulsos de checar o celular o tempo todo.</li>
+          <li>Seguir um programa personalizado de 60 a 90 dias com fases bem definidas.</li>
+        `;
+      }
+
+      // Personalização: só mediano e avançado
+      const areaPerso = document.getElementById("personalizacao-area");
+      const bloqueado = document.getElementById("personalizacao-bloqueada");
+
+      if (plano === "mediano" || plano === "avancado") {
+        areaPerso.classList.remove("hidden");
+        bloqueado.classList.add("hidden");
+      } else {
+        areaPerso.classList.add("hidden");
+        bloqueado.classList.remove("hidden");
+      }
+
+      // Atualiza gráfico de exemplo
+      atualizarGrafico();
+      document.getElementById("plano-assinado-section").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+
+    function voltarParaPlanos() {
+      planoAtual = null;
+      document.getElementById("header-principal").classList.remove("hidden");
+      document.getElementById("planos-section").classList.remove("hidden");
+      document.getElementById("plano-assinado-section").classList.add("hidden");
+      document.getElementById("plano-personalizado-section").classList.add("hidden");
+    }
+
+    function voltarParaPlanoAssinado() {
+      document.getElementById("plano-personalizado-section").classList.add("hidden");
+      document.getElementById("plano-assinado-section").classList.remove("hidden");
+      document.getElementById("plano-assinado-section").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+
+    function selecionarAba(id) {
+      const botoes = document.querySelectorAll(".tab-button");
+      const paineis = document.querySelectorAll(".tab-panel");
+
+      botoes.forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.tab === id);
+      });
+      paineis.forEach(panel => {
+        panel.classList.toggle("active", panel.id === "tab-" + id);
+      });
+
+      if (id === "graficos") {
+        atualizarGrafico();
+      }
+    }
+
+    function atualizarGrafico() {
+      const ctx = document.getElementById("graficoProgresso");
+      if (!ctx) return;
+
+      let dados = [];
+      if (planoAtual === "iniciante") {
+        dados = [6, 5.8, 5.5, 5.3, 5.1, 5, 4.9];
+      } else if (planoAtual === "mediano") {
+        dados = [6, 5.5, 5.2, 4.8, 4.4, 4, 3.8];
+      } else if (planoAtual === "avancado") {
+        dados = [7, 6.2, 5.5, 4.8, 4.1, 3.5, 3];
+      } else {
+        dados = [5, 5, 5, 5, 5, 5, 5];
+      }
+
+      const config = {
+        type: "line",
+        data: {
+          labels: ["Dia 1", "Dia 2", "Dia 3", "Dia 4", "Dia 5", "Dia 6", "Dia 7"],
+          datasets: [{
+            label: "Tempo médio de tela (horas)",
+            data: dados,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              labels: {
+                color: "#e5e7eb",
+                font: { size: 11 }
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: { color: "#9ca3af", font: { size: 10 } },
+              grid: { color: "#111827" }
+            },
+            y: {
+              ticks: { color: "#9ca3af", font: { size: 10 } },
+              grid: { color: "#111827" }
+            }
+          }
+        }
+      };
+
+      if (grafico) {
+        grafico.data.datasets[0].data = dados;
+        grafico.update();
+      } else {
+        grafico = new Chart(ctx, config);
+      }
+    }
+
+    function gerarPlanoPersonalizado() {
+      if (planoAtual !== "mediano" && planoAtual !== "avancado") {
+        alert("A personalização só está disponível para os planos Mediano e Avançado.");
+        return;
+      }
+
+      const horas = parseFloat(document.getElementById("horasTela").value || "0");
+      const apps = document.getElementById("appsPrincipais").value.trim();
+      const objetivo = document.getElementById("objetivoTela").value.trim();
+      const momentos = document.getElementById("momentosCriticos").value.trim();
+      const atividades = document.getElementById("atividadesGostaria").value.trim();
+      const resultadoPequeno = document.getElementById("resultadoPersonalizado");
+      const resumoGrande = document.getElementById("resumoPersonalizado");
+      const weekPlanDiv = document.getElementById("weekPlan");
+
+      let texto = "Com base nas suas respostas, aqui vai um esboço de plano personalizado:\n\n";
+
+      let horasMeta = horas > 0 ? Math.max(1, Math.round(horas * 0.8)) : 3;
+
+      if (horas > 0) {
+        texto += `• Você usa cerca de ${horas.toFixed(1)}h de tela por dia. Meta inicial: tentar ficar em torno de ${horasMeta}h por dia, ajustando aos poucos.\n`;
+      } else {
+        texto += "• Você não informou o tempo médio de tela, então vamos começar com uma meta leve de cerca de 3h por dia.\n";
+      }
+
+      if (apps) {
+        texto += `• Apps/jogos mais viciantes: ${apps}. Vamos colocar limites específicos nesses apps (tempo máximo e horários definidos).\n`;
+      }
+
+      if (momentos) {
+        texto += `• Momentos críticos: ${momentos}. Nessas horas, combine antes o que vai fazer em vez de pegar o celular automaticamente.\n`;
+      }
+
+      if (atividades) {
+        texto += `• Atividades offline que você quer fortalecer: ${atividades}. Vamos encaixar pelo menos 1 delas todos os dias em algum horário fixo.\n`;
+      }
+
+      if (objetivo) {
+        texto += `• Objetivo principal: ${objetivo}. Sempre que bater vontade de exagerar na tela, releia esse objetivo para lembrar por que você está fazendo esse plano.\n`;
+      }
+
+      texto += "\nUse esse rascunho como base e vá ajustando conforme o que funciona melhor para você.";
+
+      // Mostra um mini-resumo ainda na aba
+      resultadoPequeno.textContent = texto;
+
+      // Preenche o resumo grande na página 3
+      resumoGrande.textContent = texto;
+
+      // Monta programação da semana
+      const dias = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
+      const atividadesLista = atividades ? atividades.split(",") : [];
+      const atividadePrincipal = atividadesLista.length ? atividadesLista[0].trim() : "alguma atividade offline que você goste";
+
+      weekPlanDiv.innerHTML = "";
+      dias.forEach((dia, idx) => {
+        // vai reduzindo um pouco até a meta
+        let usoEstimado = horas > 0 ? horas : 4;
+        let metaDia = horasMeta;
+        if (horas > 0) {
+          const delta = usoEstimado - horasMeta;
+          metaDia = Math.max(horasMeta, (usoEstimado - (delta * (idx / 6))).toFixed(1));
+        }
+
+        const card = document.createElement("div");
+        card.className = "day-card";
+        card.innerHTML = `
+          <h3>${dia}</h3>
+          <p>Meta de tela: ~${metaDia}h no total.</p>
+          <p>Sugestão: reservar um bloco de estudo sem celular e, em algum momento do dia, trocar parte do tempo de tela por <strong>${atividadePrincipal}</strong>.</p>
+        `;
+        weekPlanDiv.appendChild(card);
+      });
+
+      // Atualiza gráfico personalizado
+      atualizarGraficoPersonalizado(horas, horasMeta);
+
+      // Navega para a página do mini plano
+      document.getElementById("plano-assinado-section").classList.add("hidden");
+      document.getElementById("plano-personalizado-section").classList.remove("hidden");
+      document.getElementById("plano-personalizado-section").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+
+    function atualizarGraficoPersonalizado(horasAtuais, horasMeta) {
+      const ctx = document.getElementById("graficoPersonalizado");
+      if (!ctx) return;
+
+      const dias = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
+
+      const usoAtual = [];
+      const usoMeta = [];
+
+      let base = horasAtuais > 0 ? horasAtuais : 4;
+      let meta = horasMeta || 3;
+
+      for (let i = 0; i < 7; i++) {
+        usoAtual.push(base);
+        // meta suavemente indo de base->meta
+        const valorMeta = base - ((base - meta) * (i / 6));
+        usoMeta.push(+valorMeta.toFixed(1));
+      }
+
+      const config = {
+        type: "bar",
+        data: {
+          labels: dias,
+          datasets: [
+            {
+              label: "Uso atual estimado (h)",
+              data: usoAtual
+            },
+            {
+              label: "Meta sugerida (h)",
+              data: usoMeta
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              labels: {
+                color: "#e5e7eb",
+                font: { size: 11 }
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: { color: "#9ca3af", font: { size: 10 } },
+              grid: { color: "#111827" }
+            },
+            y: {
+              ticks: { color: "#9ca3af", font: { size: 10 } },
+              grid: { color: "#111827" }
+            }
+          }
+        }
+      };
+
+      if (graficoPersonalizado) {
+        graficoPersonalizado.data.datasets[0].data = usoAtual;
+        graficoPersonalizado.data.datasets[1].data = usoMeta;
+        graficoPersonalizado.update();
+      } else {
+        graficoPersonalizado = new Chart(ctx, config);
+      }
+    }
+  </script>
+</body>
+</html>
